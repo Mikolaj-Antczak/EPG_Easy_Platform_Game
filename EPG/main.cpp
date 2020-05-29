@@ -1,7 +1,18 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
+#include <iostream>
+
+#include "Player.h"
+
 int main() {
+    // Load textures
+    sf::Texture texture;
+    if (!texture.loadFromFile("textures/guy.png")) {
+        std::cerr << "Could not load texture" << std::endl;
+        return 1;
+    }
+
     // create the window
     sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
 
@@ -23,6 +34,14 @@ int main() {
     triangle.setOutlineThickness(5);
     triangle.setPosition(600.0, 100.0);
 
+    // Create player
+    Player player;
+    player.setTexture(texture);
+
+    sf::Clock clock;
+
+    window.setFramerateLimit(60);
+
     // run the program as long as the window is open
     while (window.isOpen()) {
         // EVENTS
@@ -33,16 +52,22 @@ int main() {
                 window.close();
         }
 
-        //LOGIC
+        // LOGIC
+        sf::Time elapsed = clock.restart();
 
-        //DRAW
+        player.animate(elapsed);
+        player.gravity(elapsed);
+
+        // DRAW
         // clear the window with black color
         window.clear(sf::Color::Black);
 
         // draw everything here...
+
         window.draw(circle);
         window.draw(rectangle);
         window.draw(triangle);
+        window.draw(player);
 
         // end the current frame
         window.display();

@@ -1,7 +1,9 @@
 # depslib dependency file v1.0
-1590745097 source:c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\main.cpp
+1590769714 source:c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\main.cpp
 	<SFML/Window.hpp>
 	<SFML/Graphics.hpp>
+	<iostream>
+	"Player.h"
 
 1525812018 c:\sfml-2.5.1\include\sfml\window.hpp
 	<SFML/System.hpp>
@@ -411,4 +413,10 @@
 	<SFML/Graphics/PrimitiveType.hpp>
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
+
+1590770521 c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\include\player.h
+	<SFML/Graphics.hpp>
+
+1590770144 source:c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\src\player.cpp
+	"Player.h"
 

@@ -15,6 +15,7 @@
 					<Add option="-std=c++17" />
 					<Add option="-g" />
 					<Add directory="C:/SFML-2.5.1/include" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add library="sfml-graphics-d" />
@@ -32,6 +33,7 @@
 					<Add option="-O2" />
 					<Add option="-std=c++17" />
 					<Add directory="C:/SFML-2.5.1/include" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -46,7 +48,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/Player.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/Player.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

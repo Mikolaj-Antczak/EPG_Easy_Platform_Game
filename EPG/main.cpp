@@ -7,11 +7,18 @@
 
 int main() {
     // Load textures
-    sf::Texture texture;
-    if (!texture.loadFromFile("textures/guy.png")) {
+    sf::Texture texture_guy;
+    if (!texture_guy.loadFromFile("textures/guy.png")) {
         std::cerr << "Could not load texture" << std::endl;
         return 1;
     }
+
+    sf::Texture texture_wall;
+    if (!texture_wall.loadFromFile("textures/wall.png")) {
+        std::cerr << "Could not load texture" << std::endl;
+        return 1;
+    }
+
 
     // create the window
     sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
@@ -36,11 +43,19 @@ int main() {
 
     // Create player
     Player player;
-    player.setTexture(texture);
+    player.setTexture(texture_guy);
+
+    // Create wall
+    sf::Sprite wall;
+    wall.setTexture(texture_wall);
+    wall.setPosition(300, 500);
+    //wall.setScale(0.5, 0.1);
 
     sf::Clock clock;
 
     window.setFramerateLimit(60);
+
+
 
     // run the program as long as the window is open
     while (window.isOpen()) {
@@ -55,15 +70,17 @@ int main() {
         // LOGIC
         sf::Time elapsed = clock.restart();
 
-        player.animate(elapsed);
-        player.gravity(elapsed);
+        sf::FloatRect wall_bounds = wall.getGlobalBounds();
+
+        player.animate(elapsed, wall_bounds);
+        player.gravity(elapsed, wall_bounds);
 
         // DRAW
         // clear the window with black color
         window.clear(sf::Color::Black);
 
         // draw everything here...
-
+        window.draw(wall);
         window.draw(circle);
         window.draw(rectangle);
         window.draw(triangle);

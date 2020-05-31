@@ -13,6 +13,7 @@ Player::~Player()
 void Player::gravity(sf::Time elapsed, sf::FloatRect wall)
 {
     sf::FloatRect shape = getGlobalBounds();
+    shape.top += speed_y_ * elapsed.asSeconds();
 
     if (shape.top + shape.height < 600 && !shape.intersects(wall)) {
         speed_y_ += gravity_ * elapsed.asSeconds();
@@ -24,29 +25,38 @@ void Player::gravity(sf::Time elapsed, sf::FloatRect wall)
 void Player::animate(sf::Time elapsed, sf::FloatRect wall)
 {
     sf::FloatRect shape = getGlobalBounds();
+    int colide = 0;
 
 
     //Movement X
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        move(speed_x_ * elapsed.asSeconds(), 0);
-        if (shape.intersects(wall)) {
-            setPosition(wall.left - shape.width - 1, shape.top);
-        }
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        move(-speed_x_ * elapsed.asSeconds(), 0);
-        if (shape.intersects(wall)) {
-            setPosition(wall.left + wall.width + 1, shape.top);
+        shape.left += speed_x_ * elapsed.asSeconds();
+        if (!shape.intersects(wall)) {
+            move(speed_x_ * elapsed.asSeconds(), 0);
+        } else {
+            colide = 1;
         }
     }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+        shape.left += -speed_x_ * elapsed.asSeconds();
+        if (!shape.intersects(wall)) {
+            move(-speed_x_ * elapsed.asSeconds(), 0);
+        } else {
+            colide = 1;
+        }
+    }
+
 
     // Movement Y
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && (shape.top + shape.height == 600 || shape.top + shape.height >= wall.top - 1)) {
-        speed_y_ = -400;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && (shape.top + shape.height >= 599 || (shape.top + shape.height >= wall.top - 1 && shape.top + shape.height <= wall.top + 1
+                                                                                             && shape.left + shape.width > wall.left && shape.left < wall.left + wall.width))) {
+        speed_y_ = -500;
     }
 
-    move(0, elapsed.asSeconds() * speed_y_);
-    if (shape.intersects(wall)) {
-        move(0, -shape.top - shape.height + wall.top - 0.1);
+    shape.top += speed_y_ * elapsed.asSeconds();
+    if (!shape.intersects(wall) || colide) {
+        move(0, elapsed.asSeconds() * speed_y_);
     }
 
     if (shape.top + shape.height > 600) {

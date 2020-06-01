@@ -10,31 +10,23 @@
 
 void create_platforms(std::vector<std::unique_ptr<sf::Sprite>> &platforms)
 {
-    auto wall1= std::make_unique<sf::Sprite>();
-    wall1->setTexture(*TextureManager::getTexture("wall"));
-    wall1->setPosition(0, 500);
-    platforms.emplace_back(std::move(wall1));
+    auto floor = std::make_unique<sf::Sprite>();
+    floor->setTexture(*TextureManager::getTexture("wall"));
+    floor->setTextureRect({0, 0, 800, 100});
+    floor->setPosition(0, 500);
+    platforms.emplace_back(std::move(floor));
 
-    auto wall2= std::make_unique<sf::Sprite>();
-    wall2->setTexture(*TextureManager::getTexture("wall"));
-    wall2->setPosition(200, 500);
-    platforms.emplace_back(std::move(wall2));
+    auto platform1 = std::make_unique<sf::Sprite>();
+    platform1->setTexture(*TextureManager::getTexture("wall"));
+    platform1->setTextureRect({0, 0, 100, 27});
+    platform1->setPosition(200, 370);
+    platforms.emplace_back(std::move(platform1));
 
-    auto wall3= std::make_unique<sf::Sprite>();
-    wall3->setTexture(*TextureManager::getTexture("wall"));
-    wall3->setPosition(400, 500);
-    platforms.emplace_back(std::move(wall3));
-
-    auto wall4= std::make_unique<sf::Sprite>();
-    wall4->setTexture(*TextureManager::getTexture("wall"));
-    wall4->setPosition(600, 500);
-    platforms.emplace_back(std::move(wall4));
-
-    auto wall5= std::make_unique<sf::Sprite>();
-    wall5->setTexture(*TextureManager::getTexture("wall"));
-    wall5->setPosition(400, 400);
-    wall5->setScale(0.2, 0.2);
-    platforms.emplace_back(std::move(wall5));
+    auto platform2 = std::make_unique<sf::Sprite>();
+    platform2->setTexture(*TextureManager::getTexture("wall"));
+    platform2->setTextureRect({0, 0, 100, 27});
+    platform2->setPosition(300, 240);
+    platforms.emplace_back(std::move(platform2));
 }
 
 
@@ -43,6 +35,7 @@ int main() {
     // Load textures
     TextureManager::loadTexture("guy", "textures/guy.png");
     TextureManager::loadTexture("wall", "textures/wall.png");
+    TextureManager::getTexture("wall")->setRepeated(true);
 
     // create the window
     sf::RenderWindow window(sf::VideoMode(800, 600), "Eeasy Platform Game");

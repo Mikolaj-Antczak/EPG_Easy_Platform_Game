@@ -17,7 +17,7 @@ class Player : public sf::Sprite
     private:
         float velocity_x_ = 300;
         float velocity_y_ = 0;
-        float gravity_ = 600;
+        float gravity_ = 1200;
         bool colide = false;
 };
 

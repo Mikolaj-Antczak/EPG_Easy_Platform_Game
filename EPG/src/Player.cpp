@@ -26,7 +26,7 @@ void Player::gravity(sf::Time &elapsed, sf::FloatRect obstacle)
 void Player::animate(sf::Time &elapsed, sf::FloatRect obstacle)
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        velocity_y_ = -400;
+        velocity_y_ = -600;
     }
 
 

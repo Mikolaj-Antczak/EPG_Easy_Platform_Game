@@ -417,6 +417,20 @@
 1590934148 c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\include\player.h
 	<SFML/Graphics.hpp>
 
-1590851075 source:c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\src\player.cpp
+1590992185 source:c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\src\player.cpp
 	"Player.h"
+
+1381898864 source:c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\src\texturemanager.cpp
+	"TextureManager.h"
+
+1590995462 c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\include\texturemanager.h
+	<SFML/Graphics.hpp>
+	<string>
+	<map>
+
+1590997067 source:c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\src\platforms.cpp
+	"Platforms.h"
+
+1591000648 c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\include\platforms.h
+	<SFML/Graphics.hpp>
 

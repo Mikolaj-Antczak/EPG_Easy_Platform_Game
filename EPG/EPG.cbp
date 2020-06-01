@@ -48,11 +48,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="include/Platforms.h" />
 		<Unit filename="include/Player.h" />
 		<Unit filename="include/TextureManager.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="src/Platforms.cpp" />
 		<Unit filename="src/Player.cpp" />
 		<Unit filename="src/TextureManager.cpp" />
 		<Extensions>

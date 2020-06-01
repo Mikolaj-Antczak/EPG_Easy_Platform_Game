@@ -1,9 +1,12 @@
 # depslib dependency file v1.0
-1590934148 source:c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\main.cpp
+1591023364 source:c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\main.cpp
 	<SFML/Window.hpp>
 	<SFML/Graphics.hpp>
 	<iostream>
+	<memory>
+	<vector>
 	"Player.h"
+	"TextureManager.h"
 
 1525812018 c:\sfml-2.5.1\include\sfml\window.hpp
 	<SFML/System.hpp>
@@ -414,10 +417,10 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1590934148 c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\include\player.h
+1591025028 c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\include\player.h
 	<SFML/Graphics.hpp>
 
-1590992185 source:c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\src\player.cpp
+1591023721 source:c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\src\player.cpp
 	"Player.h"
 
 1381898864 source:c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\src\texturemanager.cpp

@@ -7,38 +7,34 @@
 
 #include "Player.h"
 #include "TextureManager.h"
-#include "Platforms.h"
 
-sf::Texture loadTexture(std::string path_to_file)
-{
-    sf::Texture texture;
-    if (!texture.loadFromFile(path_to_file)) {
-        std::cerr << "Could not load texture" << std::endl;
-    }
-    return texture;
-}
-
-void create_platforms(std::vector<sf::Sprite> &platforms)
+void create_platforms(std::vector<std::unique_ptr<sf::Sprite>> &platforms)
 {
     auto wall1= std::make_unique<sf::Sprite>();
     wall1->setTexture(*TextureManager::getTexture("wall"));
-    wall1->setPosition(0, 400);
+    wall1->setPosition(0, 500);
     platforms.emplace_back(std::move(wall1));
 
     auto wall2= std::make_unique<sf::Sprite>();
     wall2->setTexture(*TextureManager::getTexture("wall"));
-    wall2->setPosition(200, 400);
+    wall2->setPosition(200, 500);
     platforms.emplace_back(std::move(wall2));
 
     auto wall3= std::make_unique<sf::Sprite>();
     wall3->setTexture(*TextureManager::getTexture("wall"));
-    wall3->setPosition(400, 400);
+    wall3->setPosition(400, 500);
     platforms.emplace_back(std::move(wall3));
 
     auto wall4= std::make_unique<sf::Sprite>();
     wall4->setTexture(*TextureManager::getTexture("wall"));
-    wall4->setPosition(600, 400);
+    wall4->setPosition(600, 500);
     platforms.emplace_back(std::move(wall4));
+
+    auto wall5= std::make_unique<sf::Sprite>();
+    wall5->setTexture(*TextureManager::getTexture("wall"));
+    wall5->setPosition(400, 400);
+    wall5->setScale(0.2, 0.2);
+    platforms.emplace_back(std::move(wall5));
 }
 
 
@@ -56,7 +52,7 @@ int main() {
     player.setTexture(*TextureManager::getTexture("guy"));
 
     // Create platforms
-    std::vector<sf::Sprite> platforms;
+    std::vector<std::unique_ptr<sf::Sprite>> platforms;
     create_platforms(platforms);
 
     // Create clock
@@ -79,12 +75,17 @@ int main() {
 
         // LOGIC
         sf::Time elapsed = clock.restart();
+        sf::FloatRect obstacle(800, 600 ,0 ,0);
 
         for (const auto &s : platforms) {
-            sf::FloatRect platform_bounds = (*s)->getGlobalBounds();
-            player.animate(elapsed, platform_bounds);
-            player.gravity(elapsed, platform_bounds);
+            sf::FloatRect shape = s->getGlobalBounds();
+            if (player.collision(elapsed, shape)) {
+                obstacle = s->getGlobalBounds();
+            }
         }
+
+        player.gravity(elapsed, obstacle);
+        player.animate(elapsed, obstacle);
 
         // DRAW
         // Clear the window with black color
@@ -94,11 +95,6 @@ int main() {
         for (const auto &s : platforms) {
             window.draw(*s);
         }
-
-        /*window.draw(wall1);
-        window.draw(wall2);
-        window.draw(wall3);
-        window.draw(wall4);*/
 
         // Draw player
         window.draw(player);

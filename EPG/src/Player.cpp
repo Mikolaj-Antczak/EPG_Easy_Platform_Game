@@ -10,60 +10,55 @@ Player::~Player()
     //dtor
 }
 
-void Player::gravity(sf::Time elapsed, sf::FloatRect wall)
+void Player::gravity(sf::Time &elapsed, sf::FloatRect obstacle)
 {
-    sf::FloatRect shape = getGlobalBounds();
-    shape.top += speed_y_ * elapsed.asSeconds();
+    sf::FloatRect player = getGlobalBounds();
+    player.top += velocity_y_ * elapsed.asSeconds();
 
-    if (shape.top + shape.height < 600 && !shape.intersects(wall)) {
-        speed_y_ += gravity_ * elapsed.asSeconds();
+    if (player.intersects(obstacle)) {
+        velocity_y_ = 0;
+        colide = true;
     } else {
-        speed_y_ = 0;
+        velocity_y_ += gravity_ * elapsed.asSeconds();
     }
 }
 
-void Player::animate(sf::Time elapsed, sf::FloatRect wall)
+void Player::animate(sf::Time &elapsed, sf::FloatRect obstacle)
 {
-    sf::FloatRect shape = getGlobalBounds();
-    int colide = 0;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+        velocity_y_ = -400;
+    }
 
 
-    //Movement X
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        shape.left += speed_x_ * elapsed.asSeconds();
-        if (!shape.intersects(wall)) {
-            move(speed_x_ * elapsed.asSeconds(), 0);
-        } else {
-            colide = 1;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+        sf::FloatRect player = getGlobalBounds();
+        player.left += velocity_x_ * elapsed.asSeconds();
+        if (!player.intersects(obstacle) || colide) {
+            move(velocity_x_ * elapsed.asSeconds(), 0);
+            colide = false;
         }
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        shape.left += -speed_x_ * elapsed.asSeconds();
-        if (!shape.intersects(wall)) {
-            move(-speed_x_ * elapsed.asSeconds(), 0);
-        } else {
-            colide = 1;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+        sf::FloatRect player = getGlobalBounds();
+        player.left -= velocity_x_ * elapsed.asSeconds();
+        if (!player.intersects(obstacle) || colide) {
+            move(-velocity_x_ * elapsed.asSeconds(), 0);
+            colide = false;
         }
     }
 
-
-    // Movement Y
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && (shape.top + shape.height >= 599 || (shape.top + shape.height >= wall.top - 1 && shape.top + shape.height <= wall.top + 1
-                                                                                             && shape.left + shape.width > wall.left && shape.left < wall.left + wall.width))) {
-        speed_y_ = -500;
-    }
-
-    shape.top += speed_y_ * elapsed.asSeconds();
-    if (!shape.intersects(wall) || colide) {
-        move(0, elapsed.asSeconds() * speed_y_);
-    }
-
-    if (shape.top + shape.height > 600) {
-        move(0, -(shape.top + shape.height - 600));
-    }
+    move(0, velocity_y_ * elapsed.asSeconds());
 }
 
+bool Player::collision(sf::Time elapsed, sf::FloatRect obstacle)
+{
+    sf::FloatRect player = getGlobalBounds();
+    player.top += velocity_y_ * elapsed.asSeconds();
 
-
-
+    if (player.intersects(obstacle)) {
+        return true;
+    }
+    return false;
+}

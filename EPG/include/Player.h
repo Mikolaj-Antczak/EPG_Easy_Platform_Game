@@ -7,20 +7,17 @@ class Player : public sf::Sprite
     public:
         Player();
         virtual ~Player();
-        void gravity(sf::Time elapsed, sf::FloatRect wall);
-        void animate(sf::Time elapsed, sf::FloatRect wall);
-        void change_gun();
-        void colision(int colide);
-        void noColision();
+        void gravity(sf::Time&, sf::FloatRect);
+        void animate(sf::Time&, sf::FloatRect);
+        bool collision(sf::Time, sf::FloatRect);
+
 
     protected:
 
     private:
-        int health_ = 100;
-        int speed_x_ = 200;
-        int speed_y_ = 0;
-        int gravity_ = 800;
-        int gun_ = 0;
-        int colision_ = 0;
+        float velocity_x_ = 300;
+        float velocity_y_ = 0;
+        float gravity_ = 600;
+        bool colide = false;
 };
 

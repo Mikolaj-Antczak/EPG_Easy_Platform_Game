@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1591191634 source:c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\main.cpp
+1591212563 source:c:\users\user\documents\projekty\my_projects\sfml\epg_easy_platform_game\epg\main.cpp
 	<SFML/Window.hpp>
 	<SFML/Graphics.hpp>
 	<iostream>

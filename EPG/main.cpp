@@ -48,7 +48,7 @@ int main() {
     TextureManager::loadTexture("guy", "textures/guy.png");
     TextureManager::loadTexture("heart", "textures/heart.png");
     TextureManager::loadTexture("wall", "textures/wall.png");
-    // Set wall to a repeated texture
+    // Set wall to be repeated texture
     TextureManager::getTexture("wall")->setRepeated(true);
 
     // create the window
@@ -98,12 +98,16 @@ int main() {
         player.gravity(elapsed, obstacle);
         player.animate(elapsed, obstacle);
 
-        for (auto &s : items) {
-            sf::FloatRect shape = s->getGlobalBounds();
-            if (shape.intersects(player_bounds)) {
-                s.reset();
+        if (!items.empty()) {
+            for (auto &s : items) {
+                sf::FloatRect shape = s->getGlobalBounds();
+                if (shape.intersects(player_bounds)) {
+                    s.get_deleter();
+
+                }
             }
         }
+
 
         // DRAW
         // Clear the window with black color
@@ -114,9 +118,12 @@ int main() {
             window.draw(*s);
         }
 
-        for (const auto &s : items) {
-            window.draw(*s);
+        if(!items.empty()){
+            for (const auto &s : items) {
+                window.draw(*s);
+            }
         }
+
         // Draw player
         window.draw(player);
 

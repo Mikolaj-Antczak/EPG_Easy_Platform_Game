@@ -17,7 +17,7 @@ void Player::gravity(sf::Time &elapsed, sf::FloatRect obstacle)
 
     if (player.intersects(obstacle)) {
         velocity_y_ = 0;
-        colide_top_ = ;
+        colide_ = true;
     } else {
         velocity_y_ += gravity_ * elapsed.asSeconds();
     }
@@ -25,10 +25,12 @@ void Player::gravity(sf::Time &elapsed, sf::FloatRect obstacle)
 
 void Player::animate(sf::Time &elapsed, sf::FloatRect obstacle)
 {
+    // Jump
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && collision(elapsed, obstacle)) {
         velocity_y_ = -600;
     }
 
+    // Movement X
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         sf::FloatRect player = getGlobalBounds();
         player.left += velocity_x_ * elapsed.asSeconds();
@@ -47,6 +49,7 @@ void Player::animate(sf::Time &elapsed, sf::FloatRect obstacle)
         }
     }
 
+    // Movement Y
     move(0, velocity_y_ * elapsed.asSeconds());
 }
 

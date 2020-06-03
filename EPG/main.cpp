@@ -7,6 +7,7 @@
 
 #include "Player.h"
 #include "TextureManager.h"
+#include "Item.h"
 
 void create_platforms(std::vector<std::unique_ptr<sf::Sprite>> &platforms)
 {
@@ -29,12 +30,25 @@ void create_platforms(std::vector<std::unique_ptr<sf::Sprite>> &platforms)
     platforms.emplace_back(std::move(platform2));
 }
 
+void create_items(std::vector<std::unique_ptr<sf::Sprite>> &items)
+{
+    auto heart = std::make_unique<sf::Sprite>();
+    heart->setTexture(*TextureManager::getTexture("heart"));
+    heart->setPosition(320, 180);
+    items.emplace_back(std::move(heart));
 
+    auto life = std::make_unique<sf::Sprite>();
+    life->setTexture(*TextureManager::getTexture("heart"));
+    life->setPosition(10, 530);
+    items.emplace_back(std::move(life));
+}
 
 int main() {
     // Load textures
     TextureManager::loadTexture("guy", "textures/guy.png");
+    TextureManager::loadTexture("heart", "textures/heart.png");
     TextureManager::loadTexture("wall", "textures/wall.png");
+    // Set wall to a repeated texture
     TextureManager::getTexture("wall")->setRepeated(true);
 
     // create the window
@@ -47,6 +61,9 @@ int main() {
     // Create platforms
     std::vector<std::unique_ptr<sf::Sprite>> platforms;
     create_platforms(platforms);
+
+    std::vector<std::unique_ptr<sf::Sprite>> items;
+    create_items(items);
 
     // Create clock
     sf::Clock clock;
@@ -69,6 +86,7 @@ int main() {
         // LOGIC
         sf::Time elapsed = clock.restart();
         sf::FloatRect obstacle(800, 600 ,0 ,0);
+        sf::FloatRect player_bounds = player.getGlobalBounds();
 
         for (const auto &s : platforms) {
             sf::FloatRect shape = s->getGlobalBounds();
@@ -80,6 +98,13 @@ int main() {
         player.gravity(elapsed, obstacle);
         player.animate(elapsed, obstacle);
 
+        for (auto &s : items) {
+            sf::FloatRect shape = s->getGlobalBounds();
+            if (shape.intersects(player_bounds)) {
+                s.reset();
+            }
+        }
+
         // DRAW
         // Clear the window with black color
         window.clear(sf::Color::Black);
@@ -89,6 +114,9 @@ int main() {
             window.draw(*s);
         }
 
+        for (const auto &s : items) {
+            window.draw(*s);
+        }
         // Draw player
         window.draw(player);
 

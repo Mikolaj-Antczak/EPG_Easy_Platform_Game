@@ -14,8 +14,10 @@ void Player::gravity(sf::Time &elapsed, sf::FloatRect &obstacle)
 {
     sf::FloatRect player = getGlobalBounds();
     player.top += velocity_y_ * elapsed.asSeconds();
+    sf::FloatRect colision;
+    player.intersects(obstacle, colision);
 
-    if (player.intersects(obstacle)) {
+    if (player.intersects(obstacle) && colision.height < colision.width) {
         velocity_y_ = 0;
         colide_ = true;
     } else {
@@ -26,7 +28,9 @@ void Player::gravity(sf::Time &elapsed, sf::FloatRect &obstacle)
 void Player::animate(sf::Time &elapsed, sf::FloatRect &obstacle)
 {
     // Jump
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && collision(elapsed, obstacle)) {
+    sf::FloatRect jump_clip;
+    getGlobalBounds().intersects(obstacle, jump_clip);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && collision(elapsed, obstacle) && jump_clip.height < jump_clip.width) {
         velocity_y_ = -600;
     }
 
@@ -34,7 +38,9 @@ void Player::animate(sf::Time &elapsed, sf::FloatRect &obstacle)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         sf::FloatRect player = getGlobalBounds();
         player.left += velocity_x_ * elapsed.asSeconds();
-        if (!player.intersects(obstacle) || colide_) {
+        sf::FloatRect colision;
+        player.intersects(obstacle, colision);
+        if (!player.intersects(obstacle) || colision.height < colision.width) {
             move(velocity_x_ * elapsed.asSeconds(), 0);
             colide_ = false;
         }
@@ -43,7 +49,9 @@ void Player::animate(sf::Time &elapsed, sf::FloatRect &obstacle)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         sf::FloatRect player = getGlobalBounds();
         player.left -= velocity_x_ * elapsed.asSeconds();
-        if (!player.intersects(obstacle) || colide_) {
+        sf::FloatRect colision;
+        player.intersects(obstacle, colision);
+        if (!player.intersects(obstacle) || colision.height < colision.width) {
             move(-velocity_x_ * elapsed.asSeconds(), 0);
             colide_ = false;
         }

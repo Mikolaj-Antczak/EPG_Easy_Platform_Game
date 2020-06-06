@@ -37,10 +37,22 @@ void create_platforms(std::vector<std::unique_ptr<sf::Sprite>> &platforms)
 
 void create_items(std::vector<std::unique_ptr<sf::Sprite>> &healing_items)
 {
+    auto small_heart = std::make_unique<sf::Sprite>();
+    small_heart->setTexture(*TextureManager::getTexture("heart"));
+    small_heart->setPosition(320, 180);
+    small_heart->setScale(0.4, 0.4);
+    healing_items.emplace_back(std::move(small_heart));
+    
+    /*auto medium_heart = std::make_unique<sf::Sprite>();
+    medium_heart->setTexture(*TextureManager::getTexture("heart"));
+    medium_heart->setPosition(320, 180);
+    medium_heart->setScale(0.7, 0.7);
+    healing_items.emplace_back(std::move(medium_heart));
+    
     auto heart = std::make_unique<sf::Sprite>();
     heart->setTexture(*TextureManager::getTexture("heart"));
     heart->setPosition(320, 180);
-    healing_items.emplace_back(std::move(heart));
+    healing_items.emplace_back(std::move(heart));*/
 }
 
 void create_interface(std::vector<std::unique_ptr<sf::Sprite>> &interface)
@@ -111,10 +123,10 @@ int main() {
         player.animate(elapsed, obstacle);
 
         if (!healing_items.empty()) {
-            for (int i = 0; i < healing_items.size(); i++) {
+            for (unsigned int i = 0; i < healing_items.size(); i++) {
                 sf::FloatRect item_bounds = healing_items[i]->getGlobalBounds();
                 if (item_bounds.intersects(player_bounds)) {
-                    player.addHp(50);
+                    player.addHp(25);
                     healing_items.erase(healing_items.begin() + i);
                 }
             }

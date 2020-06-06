@@ -7,9 +7,9 @@ class Player : public sf::Sprite
     public:
         Player();
         virtual ~Player();
-        void gravity(sf::Time&, sf::FloatRect);
-        void animate(sf::Time&, sf::FloatRect);
-        bool collision(sf::Time, sf::FloatRect);
+        void gravity(sf::Time&, sf::FloatRect&);
+        void animate(sf::Time&, sf::FloatRect&);
+        bool collision(sf::Time&, sf::FloatRect&);
         int getHp();
         void addHp(int);
 

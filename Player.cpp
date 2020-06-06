@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "Player.hpp"
 
 Player::Player()
 {
@@ -10,7 +10,7 @@ Player::~Player()
     //dtor
 }
 
-void Player::gravity(sf::Time &elapsed, sf::FloatRect obstacle)
+void Player::gravity(sf::Time &elapsed, sf::FloatRect &obstacle)
 {
     sf::FloatRect player = getGlobalBounds();
     player.top += velocity_y_ * elapsed.asSeconds();
@@ -23,7 +23,7 @@ void Player::gravity(sf::Time &elapsed, sf::FloatRect obstacle)
     }
 }
 
-void Player::animate(sf::Time &elapsed, sf::FloatRect obstacle)
+void Player::animate(sf::Time &elapsed, sf::FloatRect &obstacle)
 {
     // Jump
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && collision(elapsed, obstacle)) {
@@ -53,7 +53,7 @@ void Player::animate(sf::Time &elapsed, sf::FloatRect obstacle)
     move(0, velocity_y_ * elapsed.asSeconds());
 }
 
-bool Player::collision(sf::Time elapsed, sf::FloatRect obstacle)
+bool Player::collision(sf::Time &elapsed, sf::FloatRect &obstacle)
 {
     sf::FloatRect player = getGlobalBounds();
     player.top += velocity_y_ * elapsed.asSeconds();

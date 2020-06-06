@@ -7,7 +7,6 @@
 
 #include "Player.h"
 #include "TextureManager.h"
-#include "Item.h"
 
 void create_platforms(std::vector<std::unique_ptr<sf::Sprite>> &platforms)
 {
@@ -30,23 +29,27 @@ void create_platforms(std::vector<std::unique_ptr<sf::Sprite>> &platforms)
     platforms.emplace_back(std::move(platform2));
 }
 
-void create_items(std::vector<std::unique_ptr<sf::Sprite>> &items)
+void create_items(std::vector<std::unique_ptr<sf::Sprite>> &healing_items)
 {
     auto heart = std::make_unique<sf::Sprite>();
     heart->setTexture(*TextureManager::getTexture("heart"));
     heart->setPosition(320, 180);
-    items.emplace_back(std::move(heart));
+    healing_items.emplace_back(std::move(heart));
+}
 
+void create_interface(std::vector<std::unique_ptr<sf::Sprite>> &interface)
+{
     auto life = std::make_unique<sf::Sprite>();
     life->setTexture(*TextureManager::getTexture("heart"));
     life->setPosition(10, 530);
-    items.emplace_back(std::move(life));
+    interface.emplace_back(std::move(life));
 }
 
 int main() {
     // Load textures
     TextureManager::loadTexture("guy", "textures/guy.png");
     TextureManager::loadTexture("heart", "textures/heart.png");
+    TextureManager::loadTexture("half_heart", "textures/half_heart.png");
     TextureManager::loadTexture("wall", "textures/wall.png");
     // Set wall to be repeated texture
     TextureManager::getTexture("wall")->setRepeated(true);
@@ -62,8 +65,11 @@ int main() {
     std::vector<std::unique_ptr<sf::Sprite>> platforms;
     create_platforms(platforms);
 
-    std::vector<std::unique_ptr<sf::Sprite>> items;
-    create_items(items);
+    std::vector<std::unique_ptr<sf::Sprite>> healing_items;
+    create_items(healing_items);
+
+    std::vector<std::unique_ptr<sf::Sprite>> interface;
+    create_interface(interface);
 
     // Create clock
     sf::Clock clock;
@@ -98,15 +104,22 @@ int main() {
         player.gravity(elapsed, obstacle);
         player.animate(elapsed, obstacle);
 
-        if (!items.empty()) {
-            for (auto &s : items) {
-                sf::FloatRect shape = s->getGlobalBounds();
-                if (shape.intersects(player_bounds)) {
-                    s.get_deleter();
-
+        if (!healing_items.empty()) {
+            for (int i = 0; i < healing_items.size(); i++) {
+                sf::FloatRect item_bounds = healing_items[i]->getGlobalBounds();
+                if (item_bounds.intersects(player_bounds)) {
+                    player.addHp(50);
+                    healing_items.erase(healing_items.begin() + i);
                 }
             }
         }
+
+        if (player.getHp() <= 50) {
+            interface[0]->setTexture(*TextureManager::getTexture("half_heart"));
+        } else {
+            interface[0]->setTexture(*TextureManager::getTexture("heart"));
+        }
+
 
 
         // DRAW
@@ -118,11 +131,13 @@ int main() {
             window.draw(*s);
         }
 
-        if(!items.empty()){
-            for (const auto &s : items) {
+        if(!healing_items.empty()){
+            for (const auto &s : healing_items) {
                 window.draw(*s);
             }
         }
+        
+        window.draw(*interface[0]);
 
         // Draw player
         window.draw(player);

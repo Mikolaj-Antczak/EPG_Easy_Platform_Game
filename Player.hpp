@@ -10,6 +10,8 @@ class Player : public sf::Sprite
         void gravity(sf::Time&, sf::FloatRect);
         void animate(sf::Time&, sf::FloatRect);
         bool collision(sf::Time, sf::FloatRect);
+        int getHp();
+        void addHp(int);
 
     protected:
 
@@ -18,5 +20,6 @@ class Player : public sf::Sprite
         float velocity_y_ = 0;
         float gravity_ = 1200;
         bool colide_ = false;
+        int hp_ = 50;
 };
 

@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Codelite
+*.project
+*.mk
+*.txt
+

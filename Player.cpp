@@ -63,3 +63,13 @@ bool Player::collision(sf::Time elapsed, sf::FloatRect obstacle)
     }
     return false;
 }
+
+int Player::getHp()
+{
+    return hp_;
+}
+
+void Player::addHp(int add)
+{
+    hp_ += add;
+}

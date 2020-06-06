@@ -17,7 +17,7 @@ void Player::gravity(sf::Time &elapsed, sf::FloatRect &obstacle)
     sf::FloatRect colision;
     player.intersects(obstacle, colision);
 
-    if (player.intersects(obstacle) && colision.height < colision.width) {
+    if (player.intersects(obstacle) && colision.height < colision.width || player.height + player.top >= 500) {
         velocity_y_ = 0;
         colide_ = true;
     } else {

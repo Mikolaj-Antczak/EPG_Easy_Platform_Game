@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 
+#include "Enemy.hpp"
 #include "Player.hpp"
 #include "TextureManager.hpp"
 
@@ -68,6 +69,7 @@ int main() {
     TextureManager::loadTexture("guy", "textures/guy.png");
     TextureManager::loadTexture("heart", "textures/heart.png");
     TextureManager::loadTexture("life", "textures/life.png");
+    TextureManager::loadTexture("enemy", "textures/enemy.png");
     TextureManager::loadTexture("wall", "textures/wall.png");
     // Set wall to be repeated texture
     TextureManager::getTexture("wall")->setRepeated(true);
